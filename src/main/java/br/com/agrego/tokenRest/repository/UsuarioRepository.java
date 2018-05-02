@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import br.com.agrego.tokenRest.model.Usuario;
 
-@Repository
+//@Repository
 public class UsuarioRepository extends SimpleJpaRepository<Usuario, Long> {
 
 	@Autowired

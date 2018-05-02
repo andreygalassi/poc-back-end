@@ -1,5 +1,6 @@
 package br.com.agrego.tokenRest.config;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,9 +12,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.agrego.tokenRest.model.Cargo;
 import br.com.agrego.tokenRest.model.Perfil;
 import br.com.agrego.tokenRest.model.Permissao;
+import br.com.agrego.tokenRest.model.Pessoa;
 import br.com.agrego.tokenRest.model.Usuario;
+import br.com.agrego.tokenRest.repository.CrudCargoRepository;
+import br.com.agrego.tokenRest.repository.CrudPessoaRepository;
 import br.com.agrego.tokenRest.repository.CrudUsuarioRepository;
 
 @Component
@@ -24,11 +29,54 @@ public class DadosIniciais implements InitializingBean {
 	@Autowired
 	private CrudUsuarioRepository usuarioRepository;
 	
+	@Autowired
+	private CrudPessoaRepository pessoaRepository;
+	@Autowired
+	private CrudCargoRepository cargoRepository;
+	
 	@Override
 	@Transactional
 	public void afterPropertiesSet() throws Exception {
 		log.info("Excutando Dados Iniciais");
 		
+		pessoaInit();
+		usuarioInit();
+
+		
+	}
+	
+    public void init() {
+		log.info("Teste INIT");
+    }
+    
+    private void pessoaInit(){
+		if (pessoaRepository.count()>0) return;
+		
+		Cargo cargo1 = Cargo.newInstance("Cargo1");
+		Cargo cargo2 = Cargo.newInstance("Cargo2");
+		Cargo cargo3 = Cargo.newInstance("Cargo3");
+		
+		try {
+			List<Pessoa> pessoas = new ArrayList<>();
+			pessoas.add(Pessoa.newInstance("Pessoa1", "01/01/2000", cargo1));
+			pessoas.add(Pessoa.newInstance("Pessoa2", "02/01/2000", cargo2));
+			pessoas.add(Pessoa.newInstance("Pessoa3", "03/01/2000", cargo3));
+			pessoas.add(Pessoa.newInstance("Pessoa4", "04/01/2000", cargo1));
+			pessoas.add(Pessoa.newInstance("Pessoa5", "05/01/2000", cargo2));
+			pessoas.add(Pessoa.newInstance("Pessoa6", "06/01/2000", cargo2));
+			
+			cargoRepository.save(cargo1);
+			cargoRepository.save(cargo2);
+			cargoRepository.save(cargo3);
+			
+			pessoaRepository.save(pessoas);
+			
+		} catch (ParseException e) {
+			log.error("Erro ao iniciar pessoas, erro no parse de data",e);
+		}
+    }
+    
+    private void usuarioInit(){
 		if (usuarioRepository.count()>0) return;
 		
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -79,11 +127,6 @@ public class DadosIniciais implements InitializingBean {
 		usuarios.add(admin);
 		usuarios.add(usuario);
 		usuarioRepository.save(usuarios);
-		
-	}
-	
-    public void init() {
-		log.info("Teste INIT");
     }
 
 }
