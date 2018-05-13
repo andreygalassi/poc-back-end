@@ -1,26 +1,32 @@
 package br.com.agrego.tokenRest.repository;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.stereotype.Repository;
 
 import br.com.agrego.tokenRest.model.Usuario;
 
-//@Repository
-public class UsuarioRepository extends SimpleJpaRepository<Usuario, Long> {
+@Repository
+public class UsuarioRepository extends AbstractJpaDAO<Usuario>  {
 
-	@Autowired
-	private CrudUsuarioRepository crud;
-	
-	public UsuarioRepository(Class<Usuario> domainClass, EntityManager em) {
-		super(domainClass, em);
-	}
+//	@Autowired
+//	private CrudUsuarioRepository crud;
 
-	public Usuario findByUsername(String username){
-		return crud.findByUsername(username);
-	}
+//	   @PersistenceContext
+//	   EntityManager entityManager;
+	   
+//	public Usuario findByUsername(String username){
+//		return crud.findByUsername(username);
+//	}
+	   
+//	   public List<Usuario> findAll(){
+//		   List resultList = entityManager.createQuery( "from Usuario u").getResultList();
+//		      return resultList;
+//		   }
 	
 
 	

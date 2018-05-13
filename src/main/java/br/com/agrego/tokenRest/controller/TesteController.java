@@ -1,5 +1,8 @@
 package br.com.agrego.tokenRest.controller;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -7,11 +10,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.agrego.tokenRest.model.Usuario;
+import br.com.agrego.tokenRest.repository.UsuarioRepository;
+
 @RestController
 @RequestMapping("/teste")
 public class TesteController {
 
-	  
+	@Autowired
+	  private UsuarioRepository usuarioRepository; 
 	  
 	  @GetMapping("/t1")
 //	  @Secured({"CRIAR"})
@@ -36,5 +43,10 @@ public class TesteController {
 	  @Secured({"CRIA2R"})
 	  public String teste3(){
 		  return "teste de segurança 3";
+	  }
+	  
+	  @GetMapping("/t4")
+	  public List<Usuario> teste4(){
+		  return usuarioRepository.findAll();
 	  }
 }
