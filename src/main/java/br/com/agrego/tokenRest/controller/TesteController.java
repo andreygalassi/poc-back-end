@@ -10,15 +10,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.agrego.tokenRest.model.Usuario;
-import br.com.agrego.tokenRest.repository.UsuarioRepository;
+import br.com.agrego.tokenRest.model.acesso.Usuario;
+import br.com.agrego.tokenRest.repository.CargoRepositoryImp;
+import br.com.agrego.tokenRest.repository.acesso.UsuarioRepositoryImp;
 
 @RestController
 @RequestMapping("/teste")
 public class TesteController {
 
-	@Autowired
-	  private UsuarioRepository usuarioRepository; 
+	  @Autowired
+	  private UsuarioRepositoryImp usuarioRepository; 
+	  @Autowired
+	  private CargoRepositoryImp cargoDAO; 
 	  
 	  @GetMapping("/t1")
 //	  @Secured({"CRIAR"})
@@ -49,4 +52,5 @@ public class TesteController {
 	  public List<Usuario> teste4(){
 		  return usuarioRepository.findAll();
 	  }
+
 }

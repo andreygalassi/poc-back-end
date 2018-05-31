@@ -11,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Cargo implements Serializable {
 	 
@@ -29,6 +31,7 @@ public class Cargo implements Serializable {
 	private String titulo;
 	private String descricao;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "cargo", fetch=FetchType.LAZY, cascade=CascadeType.MERGE)
 	private Set<Pessoa> pessoas = new TreeSet<>();
 	  

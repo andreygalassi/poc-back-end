@@ -1,4 +1,4 @@
-package br.com.agrego.tokenRest.repository;
+package br.com.agrego.tokenRest.repository.acesso;
 
 import java.util.List;
 
@@ -8,10 +8,11 @@ import javax.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import br.com.agrego.tokenRest.model.Usuario;
+import br.com.agrego.tokenRest.model.acesso.Usuario;
+import br.com.agrego.tokenRest.repository.AbstractJpaDAO;
 
 @Repository
-public class UsuarioRepository extends AbstractJpaDAO<Usuario>  {
+public class UsuarioRepositoryImp extends AbstractJpaDAO<Usuario>  {
 
 //	@Autowired
 //	private CrudUsuarioRepository crud;

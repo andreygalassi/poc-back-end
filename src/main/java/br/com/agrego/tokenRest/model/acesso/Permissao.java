@@ -1,4 +1,4 @@
-package br.com.agrego.tokenRest.model;
+package br.com.agrego.tokenRest.model.acesso;
 
 import java.io.Serializable;
 

@@ -16,7 +16,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import br.com.agrego.tokenRest.config.security.SecurityConstants;
-import br.com.agrego.tokenRest.model.Usuario;
+import br.com.agrego.tokenRest.model.acesso.Usuario;
 import br.com.agrego.tokenRest.service.UsuarioService;
 import io.jsonwebtoken.Jwts;
 

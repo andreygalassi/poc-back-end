@@ -7,21 +7,32 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 
-public abstract class AbstractJpaDAO<T extends Serializable>  {
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public abstract class AbstractJpaDAO2<T extends Serializable, E extends JpaRepository<T, Long>>  {
+	
+	@Autowired
+	private E repo;
+	
+	public E getRepo(){
+		return repo;
+	}
 	
 	 //TODO tentar usar reflection do spring para essa situação ou criar uma api de reflection parecida com a do demoiselle
 	@PersistenceContext
-	private EntityManager entityManager;
+	EntityManager entityManager;
  
 	private Class<T> beanClass;
 
 	protected Class<T> getBeanClass() {
+		
 		if (this.beanClass == null) {
+			
 			this.beanClass = getGenericTypeArgument(this.getClass(), 0);
 		}
+
 		return this.beanClass;
 	}
 	
@@ -38,7 +49,7 @@ public abstract class AbstractJpaDAO<T extends Serializable>  {
 
 		return (Class<T>) paramType.getActualTypeArguments()[idx];
 	}
-	public AbstractJpaDAO() {
+	public AbstractJpaDAO2() {
 		this.beanClass = getBeanClass();
 	}
    
@@ -52,9 +63,8 @@ public abstract class AbstractJpaDAO<T extends Serializable>  {
 		return resultList;
 	}
  
-	public T save(T entity){
+	public void create(T entity){
 	   entityManager.persist(entity);
-	   return entity;
 	}
  
 	public T update(T entity){
@@ -65,21 +75,8 @@ public abstract class AbstractJpaDAO<T extends Serializable>  {
 		entityManager.remove(entity);
 	}
 	
-	public void delete(Long id){
-		T entity = findOne(id);
+	public void deleteById(long entityId){
+		T entity = findOne(entityId);
 		delete(entity);
-	}
-
-	public EntityManager getEntityManager() {
-		return entityManager;
-	}
-
-	protected Query createQuery(final String ql) {
-		return getEntityManager().createQuery(ql);
-	}
-
-	protected TypedQuery<T> createTypedQuery(final String ql) {
-		TypedQuery<T> createQuery = getEntityManager().createQuery(ql, beanClass);
-		return createQuery;
 	}
 }

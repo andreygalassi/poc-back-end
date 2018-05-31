@@ -6,14 +6,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-import br.com.agrego.tokenRest.model.Usuario;
-import br.com.agrego.tokenRest.repository.CrudUsuarioRepository;
+import br.com.agrego.tokenRest.model.acesso.Usuario;
+import br.com.agrego.tokenRest.repository.acesso.UsuarioRepository;
 
 @Component
 public class UsuarioService implements UserDetailsService{
 
 	@Autowired
-	private CrudUsuarioRepository usuarioRepository;
+	private UsuarioRepository usuarioRepository;
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

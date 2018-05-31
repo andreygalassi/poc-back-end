@@ -18,7 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.agrego.tokenRest.config.security.SecurityConstants;
-import br.com.agrego.tokenRest.model.Usuario;
+import br.com.agrego.tokenRest.model.acesso.Usuario;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -58,5 +58,6 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 				.signWith(SignatureAlgorithm.HS512, SecurityConstants.SECRET)
 				.compact();
 		response.addHeader(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX+token);
+		response.getWriter().append(SecurityConstants.HEADER_STRING + SecurityConstants.TOKEN_PREFIX+token);
 	}
 }

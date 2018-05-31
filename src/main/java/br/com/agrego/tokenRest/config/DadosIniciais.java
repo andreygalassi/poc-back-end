@@ -13,13 +13,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.agrego.tokenRest.model.Cargo;
-import br.com.agrego.tokenRest.model.Perfil;
-import br.com.agrego.tokenRest.model.Permissao;
 import br.com.agrego.tokenRest.model.Pessoa;
-import br.com.agrego.tokenRest.model.Usuario;
-import br.com.agrego.tokenRest.repository.CrudCargoRepository;
-import br.com.agrego.tokenRest.repository.CrudPessoaRepository;
-import br.com.agrego.tokenRest.repository.CrudUsuarioRepository;
+import br.com.agrego.tokenRest.model.acesso.Perfil;
+import br.com.agrego.tokenRest.model.acesso.Permissao;
+import br.com.agrego.tokenRest.model.acesso.Usuario;
+import br.com.agrego.tokenRest.repository.CargoRepository;
+import br.com.agrego.tokenRest.repository.IPessoaRepository;
+import br.com.agrego.tokenRest.repository.acesso.UsuarioRepository;
 
 @Component
 public class DadosIniciais implements InitializingBean {
@@ -27,12 +27,12 @@ public class DadosIniciais implements InitializingBean {
 	private static final Logger log = LoggerFactory.getLogger(DadosIniciais.class);
 
 	@Autowired
-	private CrudUsuarioRepository usuarioRepository;
+	private UsuarioRepository usuarioRepository;
 	
 	@Autowired
-	private CrudPessoaRepository pessoaRepository;
+	private IPessoaRepository pessoaRepository;
 	@Autowired
-	private CrudCargoRepository cargoRepository;
+	private CargoRepository cargoRepository;
 	
 	@Override
 	@Transactional
