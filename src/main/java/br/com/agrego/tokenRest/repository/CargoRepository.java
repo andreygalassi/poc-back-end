@@ -9,3 +9,4 @@ import br.com.agrego.tokenRest.model.Cargo;
 public interface CargoRepository extends JpaRepository<Cargo, Long> {
 	Cargo findByTitulo(String titulo);
 }
+
