@@ -3,7 +3,6 @@ package br.com.agrego.tokenRest.repository;
 import java.util.List;
 
 import javax.persistence.Parameter;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,7 @@ public class CargoRepositoryImp extends AbstractJpaDAO<Cargo>  {
 
 	@Autowired
 	private CargoRepository repo;
-
+	
 	@Transactional
 	public Cargo testeTransaction(Long id, String descricao){
 		Cargo cargo = findOne(id);
@@ -41,7 +40,6 @@ public class CargoRepositoryImp extends AbstractJpaDAO<Cargo>  {
 		String hql = "select c from Cargo c where descricao like :descricao";
 		
 //		Query query = createQuery(hql);
-//		TypedQuery<Cargo> query = createQuery(hql);
 		TypedQuery<Cargo> query = createTypedQuery(hql);
 
 		for (Parameter<?> p : query.getParameters()) {
@@ -49,6 +47,19 @@ public class CargoRepositoryImp extends AbstractJpaDAO<Cargo>  {
 		}
 
 		return query.getResultList();
+	}
+
+	public List<Cargo> pesquisarPorTitulo(String titulo){
+		String hql = "select c from Cargo c where titulo like :titulo";
+		TypedQuery<Cargo> query = createTypedQuery(hql);
+		for (Parameter<?> p : query.getParameters()) {
+			if ("titulo".equals(p.getName()))	{query.setParameter(p.getName(), titulo);}
+		}
+		return query.getResultList();
+	}
+
+	public CargoRepository getRepo() {
+		return repo;
 	}
 
 	

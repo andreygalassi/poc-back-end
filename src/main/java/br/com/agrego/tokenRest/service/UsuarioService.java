@@ -7,18 +7,18 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import br.com.agrego.tokenRest.model.acesso.Usuario;
-import br.com.agrego.tokenRest.repository.acesso.UsuarioRepository;
+import br.com.agrego.tokenRest.repository.acesso.UsuarioRepositoryImp;
 
 @Component
 public class UsuarioService implements UserDetailsService{
 
 	@Autowired
-	private UsuarioRepository usuarioRepository;
+	private UsuarioRepositoryImp usuarioRepository;
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		// TODO Fazer a buscar por usuario aqui
-		Usuario usuario = usuarioRepository.findByUsername(username);
+		Usuario usuario = usuarioRepository.getRepo().findByUsername(username);
 //		Usuario usuario = new Usuario();
 //		usuario.setUsername("admin1");//$2a$10$Ta40/f3Wp/7032xQOykVCuGTzpzkXxIg8SIE1rN4n51pZKl77vJeC
 //		usuario.setPassword("$2a$10$Ta40/f3Wp/7032xQOykVCuGTzpzkXxIg8SIE1rN4n51pZKl77vJeC");//123

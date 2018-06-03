@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 
 public abstract class AbstractJpaDAO<T extends Serializable>  {
 	
@@ -52,22 +53,26 @@ public abstract class AbstractJpaDAO<T extends Serializable>  {
 		return resultList;
 	}
  
+	@Transactional
 	public T save(T entity){
 	   entityManager.persist(entity);
 	   return entity;
 	}
- 
+
+	@Transactional
 	public T update(T entity){
 		return entityManager.merge(entity);
 	}
- 
+
+	@Transactional
 	public void delete(T entity){
 		entityManager.remove(entity);
 	}
-	
+
+	@Transactional
 	public void delete(Long id){
 		T entity = findOne(id);
-		delete(entity);
+		entityManager.remove(entity);
 	}
 
 	public EntityManager getEntityManager() {

@@ -1,4 +1,4 @@
-package br.com.agrego.tokenRest.controller;
+package br.com.agrego.tokenRest.endpoint;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ import br.com.agrego.tokenRest.repository.acesso.UsuarioRepositoryImp;
 
 @RestController
 @RequestMapping("/teste")
-public class TesteController {
+public class TesteEndpoint {
 
 	  @Autowired
 	  private UsuarioRepositoryImp usuarioRepository; 

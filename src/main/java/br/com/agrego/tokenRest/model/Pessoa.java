@@ -1,16 +1,20 @@
 package br.com.agrego.tokenRest.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class Pessoa implements Serializable {
@@ -33,7 +37,10 @@ public class Pessoa implements Serializable {
 
 	private String nome;
 	private String sobreNome;
+	@Temporal(TemporalType.DATE)
 	private Date dtNascimento;
+	@Column(precision = 20, scale = 4)
+	private BigDecimal salario;
 
 	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.MERGE)
 	private Cargo cargo;

@@ -18,7 +18,7 @@ import br.com.agrego.tokenRest.model.acesso.Perfil;
 import br.com.agrego.tokenRest.model.acesso.Permissao;
 import br.com.agrego.tokenRest.model.acesso.Usuario;
 import br.com.agrego.tokenRest.repository.CargoRepository;
-import br.com.agrego.tokenRest.repository.IPessoaRepository;
+import br.com.agrego.tokenRest.repository.PessoaRepository;
 import br.com.agrego.tokenRest.repository.acesso.UsuarioRepository;
 
 @Component
@@ -30,7 +30,7 @@ public class DadosIniciais implements InitializingBean {
 	private UsuarioRepository usuarioRepository;
 	
 	@Autowired
-	private IPessoaRepository pessoaRepository;
+	private PessoaRepository pessoaRepository;
 	@Autowired
 	private CargoRepository cargoRepository;
 	
