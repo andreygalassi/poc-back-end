@@ -11,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -23,11 +25,18 @@ public class Cargo implements Serializable {
 		cargo.setTitulo(titulo);
 		return cargo;
 	}
+	public static Cargo newInstance(Long id, String titulo){
+		Cargo cargo = new Cargo();
+		cargo.setId(id);
+		cargo.setTitulo(titulo);
+		return cargo;
+	}
 	
 	@Id
 	@GeneratedValue
 	private Long id;
 
+	@NotBlank(message="Título do cargo é obrigatório")
 	private String titulo;
 	private String descricao;
 

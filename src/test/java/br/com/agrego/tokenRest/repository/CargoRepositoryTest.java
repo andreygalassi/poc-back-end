@@ -5,12 +5,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.List;
 
 import javax.transaction.Transactional;
+import javax.validation.ConstraintViolationException;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -19,7 +21,8 @@ import br.com.agrego.tokenRest.model.Cargo;
 @RunWith(SpringRunner.class)
 //@DataJpaTest
 @SpringBootTest
-public class CargoRepositoryTests {
+//@AutoConfigureTestDatabase(replace=AutoConfigureTestDatabase.Replace.NONE)
+public class CargoRepositoryTest {
 
 	@Autowired
 	private CargoRepositoryImp cargoRepository;
@@ -105,5 +108,54 @@ public class CargoRepositoryTests {
 		
 		List<Cargo> findAll = cargoRepository.getRepo().findAll();
 		assertThat(findAll.stream().filter(c -> c.getTitulo().equals(titulo)).count()).isEqualTo(0l);
+	}
+
+	@Test
+	public void deveAtualizarUmCargoSalvo(){
+		String titulo = "Cargo para Atualização";
+		String descricao = "Descrição do cargo para Atualização";
+		Cargo cargo = Cargo.newInstance(titulo);
+		cargo.setDescricao(descricao);
+		cargo = cargoRepository.getRepo().save(cargo);
+		
+		cargo.setTitulo("Cargo atualizado");
+		cargo.setDescricao("Descrição do cargo atualizado");
+		cargo = cargoRepository.getRepo().save(cargo);
+		
+		assertThat(cargoRepository.getRepo().findOne(cargo.getId())).isNotNull();
+		assertThat(cargoRepository.getRepo().findOne(cargo.getId()).getTitulo()).isEqualTo("Cargo atualizado");
+		assertThat(cargoRepository.getRepo().findOne(cargo.getId()).getDescricao()).isEqualTo("Descrição do cargo atualizado");
+		
+		List<Cargo> findAll = cargoRepository.getRepo().findAll();
+		assertThat(findAll.stream().filter(c -> 
+			c.getTitulo().equals("Cargo atualizado") && c.getDescricao().equals("Descrição do cargo atualizado")
+		).count()).isEqualTo(1l);
+	}
+
+	@Test
+	public void deveLancarConstraintViolationExeptionQuandoTituloENull(){
+		thrown.expect(ConstraintViolationException.class);
+		thrown.expectMessage("Título do cargo é obrigatório");
+		String titulo = null;
+		Cargo cargo = Cargo.newInstance(titulo);
+		cargoRepository.getRepo().save(cargo);
+	}
+
+	@Test
+	public void deveLancarConstraintViolationExeptionQuandoTituloEBranco(){
+		thrown.expect(ConstraintViolationException.class);
+		thrown.expectMessage("Título do cargo é obrigatório");
+		String titulo = "";
+		Cargo cargo = Cargo.newInstance(titulo);
+		cargoRepository.getRepo().save(cargo);
+	}
+
+	@Test
+	public void deveLancarConstraintViolationExeptionQuandoTituloTemSomenteEspacos(){
+		thrown.expect(ConstraintViolationException.class);
+		thrown.expectMessage("Título do cargo é obrigatório");
+		String titulo = "  ";
+		Cargo cargo = Cargo.newInstance(titulo);
+		cargoRepository.getRepo().save(cargo);
 	}
 }
