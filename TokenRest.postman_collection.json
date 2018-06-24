@@ -1,0 +1,216 @@
+{
+	"variables": [],
+	"info": {
+		"name": "TokenRest",
+		"_postman_id": "eb780d4e-c432-b6c9-2d70-4dfa19795e5f",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "{{url}}/v1/cargos",
+			"request": {
+				"url": "{{url}}/v1/cargos",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{auth}}",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "{{url}}/v1/cargos/{id}",
+			"request": {
+				"url": "{{url}}/v1/cargos/1",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{auth}}",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "{{url}}/login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"postman.setEnvironmentVariable(\"auth\",responseBody);"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}/login",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\":\"admin\",\n\t\"password\":\"123\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "{{url}}/v1/cargos/teste/{id}?descricao=teste",
+			"request": {
+				"url": {
+					"raw": "{{url}}/v1/cargos/teste/1?descricao=teste",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"v1",
+						"cargos",
+						"teste",
+						"1"
+					],
+					"query": [
+						{
+							"key": "descricao",
+							"value": "teste",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{auth}}",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "{{url}}/v1/cargos",
+			"request": {
+				"url": "{{url}}/v1/cargos",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{auth}}",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"titulo\": \"Cargo Teste 1\",\n    \"descricao\": \"Descrição do cardo teste 1\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "{{url}}/v1/cargos?descricao=teste",
+			"request": {
+				"url": {
+					"raw": "{{url}}/v1/cargos/find?descricao=teste2",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"v1",
+						"cargos",
+						"find"
+					],
+					"query": [
+						{
+							"key": "descricao",
+							"value": "teste2",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{auth}}",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "{{url}}/v1/cargos/1",
+			"request": {
+				"url": "{{url}}/v1/cargos/1",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{auth}}",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\":1,\n    \"titulo\": \"Cargo Teste 1\",\n    \"descricao\": \"Descrição do cardo teste 1\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "{{url}}/v1/cargos/{id}",
+			"request": {
+				"url": "{{url}}/v1/cargos/1",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{auth}}",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
