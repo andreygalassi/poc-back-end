@@ -98,25 +98,25 @@ public class DadosIniciais implements InitializingBean {
 		Perfil pUsuario = new Perfil();
 		pUsuario.setNome("Usuario");
 		
-		Permissao create = new Permissao();
-		Permissao read = new Permissao();
-		Permissao update = new Permissao();
-		Permissao delete = new Permissao();
-		Permissao view = new Permissao();
-		create.setNome("CRIAR");
-		read.setNome("LER");
-		update.setNome("EDITAR");
-		delete.setNome("DELETAR");
-		view.setNome("VER");
+		Permissao createCargo = new Permissao();
+		Permissao readCargo = new Permissao();
+		Permissao updateCargo = new Permissao();
+		Permissao deleteCargo = new Permissao();
+		Permissao viewCargo = new Permissao();
+		createCargo.setNome("CARGO_CRIAR");
+		readCargo.setNome("CARGO_LER");
+		updateCargo.setNome("CARGO_EDITAR");
+		deleteCargo.setNome("CARGO_DELETAR");
+		viewCargo.setNome("CARGO_VER");
 		
-		pAdmin.getPermissoes().add(create);
-		pAdmin.getPermissoes().add(read);
-		pAdmin.getPermissoes().add(update);
-		pAdmin.getPermissoes().add(delete);
-		pAdmin.getPermissoes().add(view);
+		pAdmin.getPermissoes().add(createCargo);
+		pAdmin.getPermissoes().add(readCargo);
+		pAdmin.getPermissoes().add(updateCargo);
+		pAdmin.getPermissoes().add(deleteCargo);
+		pAdmin.getPermissoes().add(viewCargo);
 		
-		pUsuario.getPermissoes().add(read);
-		pUsuario.getPermissoes().add(view);
+		pUsuario.getPermissoes().add(readCargo);
+		pUsuario.getPermissoes().add(viewCargo);
 		
 		admin.getPerfis().add(pAdmin);
 		admin.getPerfis().add(pUsuario);

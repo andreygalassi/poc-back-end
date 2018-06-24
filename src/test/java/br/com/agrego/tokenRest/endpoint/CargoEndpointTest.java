@@ -5,8 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.persistence.Basic;
-
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
@@ -118,7 +116,7 @@ public class CargoEndpointTest {
 	}
 	
 	@Test
-	@WithMockUser(username="xx",password="xx",roles={"USER","ADMIN"})
+	@WithMockUser(username="xx",password="xx",authorities={"CARGO_DELETAR"})//,roles={"USER","ADMIN"}
 	public void deveRetornarStatusCode404QuandoDeletarCargoPorIdInexistenteComUsuarioAdminUsandoMockmvc() throws Exception{
 		BDDMockito.doNothing().when(cargoRepo).delete(1l);
 //		ResponseEntity<String> exc = restTemplate.exchange("/v1/cargos/{id}", HttpMethod.DELETE,null,String.class,-1l);
@@ -129,7 +127,7 @@ public class CargoEndpointTest {
 	
 	//TODO aprender a tratar os teste com roles dinamicas
 	@Test
-	@WithMockUser(username="xx",password="xx",roles={"USER"})
+	@WithMockUser(username="xx",password="xx",authorities={"CARGO_OUTROS"})//,roles={"USER"}
 	public void deveRetornarStatusCode403QuandoDeletarCargoPorIdInexistenteComUsuarioSemPermissaoAdminUsandoMockmvc() throws Exception{
 		BDDMockito.doNothing().when(cargoRepo).delete(1l);
 		mockMvc.perform(MockMvcRequestBuilders.delete("/v1/cargos/{id}",-1l))

@@ -2,9 +2,12 @@ package br.com.agrego.tokenRest.endpoint;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -72,7 +75,7 @@ public class CargoEndpoint {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Cargo save(@RequestBody Cargo cargo) {
+	public Cargo save(@Valid @RequestBody Cargo cargo) {
 		Cargo bean = cargoRepository.save(cargo);
 		return bean;
 	}
@@ -84,6 +87,7 @@ public class CargoEndpoint {
 	}
 	
 	@DeleteMapping("/{id}")
+	@PreAuthorize("hasAuthority('CARGO_DELETAR')")
 	public ResponseEntity<?> delete(@PathVariable("id") Long id) {
 		Cargo cargo = cargoRepository.findOne(id);
 

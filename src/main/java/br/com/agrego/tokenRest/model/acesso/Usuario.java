@@ -50,7 +50,6 @@ public class Usuario implements UserDetails, Serializable {
 	public Set<GrantedAuthority> getAuthorities() {
 		if (authorities.isEmpty()){
 			for (Perfil perfil : perfis) {
-				authorities.add(perfil);
 				authorities.addAll(perfil.getPermissoes());
 			}
 		}
