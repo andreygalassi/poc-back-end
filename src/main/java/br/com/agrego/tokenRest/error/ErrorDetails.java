@@ -7,8 +7,11 @@ public class ErrorDetails {
     private int status;
     private String detail;
     private long timestamp;
+    private String data;
+    private String classe;
     private String exception;
     private String path;
+    private String method;
 
     public String getTitle() {
         return title;
@@ -59,12 +62,13 @@ public class ErrorDetails {
     }
     
     public static class Builder {
-        private String title;
-        private int status;
-        private String detail;
-        private long timestamp;
-        private String exception;
-        private String path;
+        protected String title;
+        protected int status;
+        protected String detail;
+        protected long timestamp;
+        protected String exception;
+        protected String path;
+        protected String method;
         
         protected Builder() {
         }
@@ -102,6 +106,10 @@ public class ErrorDetails {
             this.path = path;
             return this;
         }
+        public Builder method(String method) {
+            this.method = method;
+            return this;
+        }
 
         public ErrorDetails build() {
             ErrorDetails errorDetails = new ErrorDetails();
@@ -111,7 +119,16 @@ public class ErrorDetails {
             errorDetails.setTimestamp(timestamp);
             errorDetails.setException(exception);
             errorDetails.setPath(path);
+            errorDetails.setMethod(method);
             return errorDetails;
         }
     }
+
+	public String getMethod() {
+		return method;
+	}
+
+	public void setMethod(String method) {
+		this.method = method;
+	}
 }

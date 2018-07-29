@@ -44,6 +44,10 @@ public class ValidationErrorDetails extends ErrorDetails {
             super.path(path);
             return this;
         }
+        public Builder method(String method) {
+            super.method(method);
+            return this;
+        }
         
         public Builder field(String field) {
             this.field = field;
@@ -56,6 +60,13 @@ public class ValidationErrorDetails extends ErrorDetails {
         @Override
         public ValidationErrorDetails build() {
             ValidationErrorDetails validationErrorDetails = new ValidationErrorDetails();
+            validationErrorDetails.setTitle(super.title);
+            validationErrorDetails.setStatus(super.status);
+            validationErrorDetails.setDetail(super.detail);
+            validationErrorDetails.setTimestamp(super.timestamp);
+            validationErrorDetails.setException(super.exception);
+            validationErrorDetails.setPath(super.path);
+            validationErrorDetails.setMethod(super.method);
             validationErrorDetails.fieldMessage = fieldMessage;
             validationErrorDetails.field = field;
             return validationErrorDetails;

@@ -1,5 +1,7 @@
 package br.com.agrego.tokenRest.error;
 
+import br.com.agrego.tokenRest.error.ResourceNotFoundDetails.Builder;
+
 public class ResourceNotFoundDetails extends ErrorDetails {
 
 	public static final class Builder extends ErrorDetails.Builder {
@@ -33,9 +35,22 @@ public class ResourceNotFoundDetails extends ErrorDetails {
             super.path(path);
             return this;
         }
+		public Builder method(String method) {
+            super.method(method);
+            return this;
+		}
         
         public ResourceNotFoundDetails build() {
             ResourceNotFoundDetails resourceNotFoundDetails = new ResourceNotFoundDetails();
+            
+            resourceNotFoundDetails.setTitle(super.title);
+            resourceNotFoundDetails.setStatus(super.status);
+            resourceNotFoundDetails.setDetail(super.detail);
+            resourceNotFoundDetails.setTimestamp(super.timestamp);
+            resourceNotFoundDetails.setException(super.exception);
+            resourceNotFoundDetails.setPath(super.path);
+            resourceNotFoundDetails.setMethod(super.method);
+            
             return resourceNotFoundDetails;
         }
     }
