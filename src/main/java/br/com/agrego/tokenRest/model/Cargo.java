@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Cargo implements Serializable {
 	 
 	private static final long serialVersionUID = 1L;
-		
+
 	public static Cargo newInstance(String titulo){
 		Cargo cargo = new Cargo();
 		cargo.setTitulo(titulo);

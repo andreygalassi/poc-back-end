@@ -16,6 +16,7 @@ import br.com.agrego.tokenRest.model.Cargo;
 import br.com.agrego.tokenRest.model.Pessoa;
 import br.com.agrego.tokenRest.model.acesso.Perfil;
 import br.com.agrego.tokenRest.model.acesso.Permissao;
+import br.com.agrego.tokenRest.model.acesso.Permissoes;
 import br.com.agrego.tokenRest.model.acesso.Usuario;
 import br.com.agrego.tokenRest.repository.CargoRepository;
 import br.com.agrego.tokenRest.repository.PessoaRepository;
@@ -98,25 +99,28 @@ public class DadosIniciais implements InitializingBean {
 		Perfil pUsuario = new Perfil();
 		pUsuario.setNome("Usuario");
 		
-		Permissao createCargo = new Permissao();
-		Permissao readCargo = new Permissao();
-		Permissao updateCargo = new Permissao();
-		Permissao deleteCargo = new Permissao();
-		Permissao viewCargo = new Permissao();
-		createCargo.setNome("CARGO_CRIAR");
-		readCargo.setNome("CARGO_LER");
-		updateCargo.setNome("CARGO_EDITAR");
-		deleteCargo.setNome("CARGO_DELETAR");
-		viewCargo.setNome("CARGO_VER");
+		Permissao createCargo = Permissao.newInstance(Permissoes.CARGO_CREATE);
+		Permissao readCargo   = Permissao.newInstance(Permissoes.CARGO_READ);
+		Permissao updateCargo = Permissao.newInstance(Permissoes.CARGO_UPDATE);
+		Permissao deleteCargo = Permissao.newInstance(Permissoes.CARGO_DELETE);
+
+		Permissao createPessoa = Permissao.newInstance(Permissoes.PESSOA_CREATE);
+		Permissao readPessoa   = Permissao.newInstance(Permissoes.PESSOA_READ);
+		Permissao updatePessoa = Permissao.newInstance(Permissoes.PESSOA_UPDATE);
+		Permissao deletePessoa = Permissao.newInstance(Permissoes.PESSOA_DELETE);
 		
 		pAdmin.getPermissoes().add(createCargo);
 		pAdmin.getPermissoes().add(readCargo);
 		pAdmin.getPermissoes().add(updateCargo);
 		pAdmin.getPermissoes().add(deleteCargo);
-		pAdmin.getPermissoes().add(viewCargo);
+
+		pAdmin.getPermissoes().add(createPessoa);
+		pAdmin.getPermissoes().add(readPessoa);
+		pAdmin.getPermissoes().add(updatePessoa);
+		pAdmin.getPermissoes().add(deletePessoa);
 		
 		pUsuario.getPermissoes().add(readCargo);
-		pUsuario.getPermissoes().add(viewCargo);
+		pUsuario.getPermissoes().add(readPessoa);
 		
 		admin.getPerfis().add(pAdmin);
 		admin.getPerfis().add(pUsuario);
