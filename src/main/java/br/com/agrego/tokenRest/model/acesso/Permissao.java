@@ -3,6 +3,8 @@ package br.com.agrego.tokenRest.model.acesso;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Transient;
@@ -18,7 +20,16 @@ public class Permissao implements GrantedAuthority, Serializable {
 	@GeneratedValue
 	private Long id;
 	private String nome;
+	@Enumerated(EnumType.STRING)
+	private EnumAcao acao;
 	
+	public static Permissao newInstance(String nome) {
+		Permissao p = new Permissao();
+		p.setNome(nome);
+		return p;
+	}
+
+
 	@Override
 	@Transient
 	public String getAuthority() {
@@ -75,6 +86,14 @@ public class Permissao implements GrantedAuthority, Serializable {
 		} else if (!nome.equals(other.nome))
 			return false;
 		return true;
+	}
+
+	public EnumAcao getAcao() {
+		return acao;
+	}
+
+	public void setAcao(EnumAcao acao) {
+		this.acao = acao;
 	}
 
 
