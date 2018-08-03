@@ -93,6 +93,11 @@ public class DadosIniciais implements InitializingBean {
 		usuario.setUsername("usuario");
 		usuario.setPassword(defaultPassword);
 		
+		Usuario semPermissao = new Usuario();
+		semPermissao.setNome("semPermissao");
+		semPermissao.setUsername("semPermissao");
+		semPermissao.setPassword(defaultPassword);
+		
 		Perfil pAdmin = new Perfil();
 		pAdmin.setNome("Admin");
 
@@ -130,6 +135,7 @@ public class DadosIniciais implements InitializingBean {
 		List<Usuario> usuarios = new ArrayList<>();
 		usuarios.add(admin);
 		usuarios.add(usuario);
+		usuarios.add(semPermissao);
 		usuarioRepository.save(usuarios);
     }
 
