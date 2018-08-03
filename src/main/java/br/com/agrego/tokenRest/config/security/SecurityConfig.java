@@ -27,6 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_URL).permitAll()
 			.antMatchers("/teste/t2").hasRole("ADMIN")
 			.antMatchers("/teste/t4").permitAll()
+			.antMatchers("/controle").permitAll()
 			.anyRequest().authenticated()
 			.and().httpBasic()
 			.and()
