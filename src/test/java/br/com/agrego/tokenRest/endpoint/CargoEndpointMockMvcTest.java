@@ -1,5 +1,6 @@
 package br.com.agrego.tokenRest.endpoint;
 
+import java.awt.print.Printable;
 import java.util.Arrays;
 import java.util.List;
 
@@ -18,6 +19,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.google.gson.Gson;
@@ -26,6 +28,11 @@ import br.com.agrego.tokenRest.model.Cargo;
 import br.com.agrego.tokenRest.model.acesso.Permissoes;
 import br.com.agrego.tokenRest.repository.CargoRepositoryImp;
 
+/**
+ * Classe de teste para o endpoint de cargo utilizando o mockmvc
+ * @author Andrey
+ * @since 29/07/2018
+ */
 @RunWith(SpringRunner.class)
 //Inicia o endpoint com uma porta aleatória, evita problemas quando o ambiente já está em pé
 @SpringBootTest(webEnvironment=WebEnvironment.RANDOM_PORT)
@@ -49,20 +56,26 @@ public class CargoEndpointMockMvcTest {
 	@Test
 	public void deveRetornarStatusCode401QuandoListarCargoUsandoUsuarioNaoLogado() throws Exception{
 		mockMvc.perform(MockMvcRequestBuilders.get("/v1/cargos"))
-			.andExpect(MockMvcResultMatchers.status().isUnauthorized());
+			.andExpect(MockMvcResultMatchers.status().isUnauthorized())
+			;
 	}
 	@Test
-	@WithMockUser(username="xx",password="xx",authorities={"OUTRO"})
+	@WithMockUser(username="semPermissao",password="123")
 	public void deveRetornarStatusCode403QuandoListarCargoUsandoUsuarioSemAutorizacao() throws Exception{
-		mockMvc.perform(MockMvcRequestBuilders.get("/v1/cargos"))
-			.andExpect(MockMvcResultMatchers.status().isForbidden());
+		mockMvc.perform(MockMvcRequestBuilders.get("/v1/cargos")).andDo(MockMvcResultHandlers.print())
+			.andExpect(MockMvcResultMatchers.status().isForbidden())
+			.andExpect(MockMvcResultMatchers.content().contentType("application/json;charset=UTF-8"))
+			.andExpect(MockMvcResultMatchers.jsonPath("$.path", Matchers.is("/v1/cargos")))
+			;
 	}
 	
 	@Test
 	@WithMockUser(username="xx",password="xx",authorities={"OUTRO"})
 	public void deveRetornarStatusCode401QuandoBuscaCargoPorIdUsandoUsuarioSemAutorizacao() throws Exception{
 		mockMvc.perform(MockMvcRequestBuilders.get("/v1/cargos/1"))
-			.andExpect(MockMvcResultMatchers.status().isForbidden());
+			.andExpect(MockMvcResultMatchers.status().isForbidden())
+			.andExpect(MockMvcResultMatchers.jsonPath("$.path", Matchers.is("/v1/cargos/1")))
+			;
 	}
 	
 	@Test
@@ -98,6 +111,7 @@ public class CargoEndpointMockMvcTest {
 	public void deveRetornarStatusCode404QuandoBuscaCargoPorIdInvalido() throws Exception{
 		mockMvc.perform(MockMvcRequestBuilders.get("/v1/cargos/{id}",-1))
 			.andExpect(MockMvcResultMatchers.status().isNotFound())
+			.andExpect(MockMvcResultMatchers.jsonPath("$.path", Matchers.is("/v1/cargos/-1")))
 			;
 	}
 	
@@ -117,6 +131,7 @@ public class CargoEndpointMockMvcTest {
 	public void deveRetornarStatusCode404QuandoDeletarCargoPorIdInexistente() throws Exception{
 		mockMvc.perform(MockMvcRequestBuilders.delete("/v1/cargos/{id}",-1))
 			.andExpect(MockMvcResultMatchers.status().isNotFound())
+			.andExpect(MockMvcResultMatchers.jsonPath("$.path", Matchers.is("/v1/cargos/-1")))
 			;
 	}
 	
@@ -126,7 +141,9 @@ public class CargoEndpointMockMvcTest {
 	public void deveRetornarStatusCode403QuandoDeletarCargoPorIdInexistenteComUsuarioSemPermissao() throws Exception{
 		BDDMockito.doNothing().when(cargoRepo).delete(1l);
 		mockMvc.perform(MockMvcRequestBuilders.delete("/v1/cargos/{id}",-1l))
-				.andExpect(MockMvcResultMatchers.status().isForbidden());
+				.andExpect(MockMvcResultMatchers.status().isForbidden())
+				.andExpect(MockMvcResultMatchers.jsonPath("$.path", Matchers.is("/v1/cargos/-1")))
+				;
 	}
 	
 	@Test
@@ -143,6 +160,7 @@ public class CargoEndpointMockMvcTest {
 				.andExpect(MockMvcResultMatchers.content().contentType("application/json;charset=UTF-8"))
 				.andExpect(MockMvcResultMatchers.jsonPath("$.fieldMessage", Matchers.is("Título do cargo é obrigatório")))
 				.andExpect(MockMvcResultMatchers.jsonPath("$.title", Matchers.is("Erro na validação de campo")))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.path", Matchers.is("/v1/cargos")))
 				;
 	}
 	

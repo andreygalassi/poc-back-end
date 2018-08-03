@@ -7,6 +7,9 @@ import java.util.stream.Collectors;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -45,6 +48,55 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(rnfDetails, HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(InternalAuthenticationServiceException.class)
+    public ResponseEntity<?> handleAuthorizationServiceException(InternalAuthenticationServiceException ex, WebRequest request) {
+        ResourceNotFoundDetails rnfDetails = ResourceNotFoundDetails.Builder
+                .newBuilder()
+                .timestamp(new Date().getTime())
+                .status(HttpStatus.UNAUTHORIZED.value())
+                .title("Acesso Negado")
+                .detail(ex.getMessage())
+                .exception(ex.getClass().getName())
+                .path(((ServletWebRequest)request).getRequest().getRequestURI())
+                .method(((ServletWebRequest)request).getRequest().getMethod())
+                .build();
+
+        return new ResponseEntity<>(rnfDetails, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<?> handleAuthorizationServiceException(AuthenticationException ex, WebRequest request) {
+        ResourceNotFoundDetails rnfDetails = ResourceNotFoundDetails.Builder
+                .newBuilder()
+                .timestamp(new Date().getTime())
+                .status(HttpStatus.UNAUTHORIZED.value())
+                .title("Acesso Negado")
+                .detail(ex.getMessage())
+                .exception(ex.getClass().getName())
+                .path(((ServletWebRequest)request).getRequest().getRequestURI())
+                .method(((ServletWebRequest)request).getRequest().getMethod())
+                .build();
+
+        return new ResponseEntity<>(rnfDetails, HttpStatus.UNAUTHORIZED);
+    }
+    
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<?> handleAccessDeniedException(AccessDeniedException ex, WebRequest request) {
+        ResourceNotFoundDetails rnfDetails = ResourceNotFoundDetails.Builder
+                .newBuilder()
+                .timestamp(new Date().getTime())
+                .status(HttpStatus.FORBIDDEN.value())
+                .title("Sem autenticação")
+                .detail(ex.getMessage())
+                .exception(ex.getClass().getName())
+                .path(((ServletWebRequest)request).getRequest().getRequestURI())
+                .method(((ServletWebRequest)request).getRequest().getMethod())
+                .build();
+
+        return new ResponseEntity<>(rnfDetails, HttpStatus.FORBIDDEN);
+    }
+    
 
     @Override
     public ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {

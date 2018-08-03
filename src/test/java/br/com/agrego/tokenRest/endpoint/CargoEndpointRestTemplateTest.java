@@ -32,6 +32,11 @@ import br.com.agrego.tokenRest.model.Cargo;
 import br.com.agrego.tokenRest.model.acesso.Permissoes;
 import br.com.agrego.tokenRest.repository.CargoRepositoryImp;
 
+/**
+ * Classe de teste para o endpoint de cargo utilizando o restTemplate
+ * @author Andrey
+ * @since 29/07/2018
+ */
 @RunWith(SpringRunner.class)
 //Inicia o endpoint com uma porta aleatória, evita problemas quando o ambiente já está em pé
 @SpringBootTest(webEnvironment=WebEnvironment.RANDOM_PORT)
@@ -66,6 +71,7 @@ public class CargoEndpointRestTemplateTest {
 		restTemplate = restTemplate.withBasicAuth("1", "1");
 		ResponseEntity<String> res = restTemplate.getForEntity("/v1/cargos", String.class);
 		
+		System.out.println("TESTE DE IMPRESSAO: "+res.getBody());
 		assertThat(res.getStatusCodeValue()).isEqualTo(401);
 	}
 	
