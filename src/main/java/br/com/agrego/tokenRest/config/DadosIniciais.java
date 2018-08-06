@@ -59,12 +59,12 @@ public class DadosIniciais implements InitializingBean {
 		
 		try {
 			List<Pessoa> pessoas = new ArrayList<>();
-			pessoas.add(Pessoa.newInstance("Pessoa1", "01/01/2000", cargo1));
-			pessoas.add(Pessoa.newInstance("Pessoa2", "02/01/2000", cargo2));
-			pessoas.add(Pessoa.newInstance("Pessoa3", "03/01/2000", cargo3));
-			pessoas.add(Pessoa.newInstance("Pessoa4", "04/01/2000", cargo1));
-			pessoas.add(Pessoa.newInstance("Pessoa5", "05/01/2000", cargo2));
-			pessoas.add(Pessoa.newInstance("Pessoa6", "06/01/2000", cargo2));
+			pessoas.add(Pessoa.newInstance("Pessoa1", "Sobrenome1", "p1@p1.com", "10.00", "01/01/2000", cargo1));
+			pessoas.add(Pessoa.newInstance("Pessoa2", null, null, "150.20", "02/01/2000", cargo2));
+			pessoas.add(Pessoa.newInstance("Pessoa3", null, "p3@p3.com", "2500.00", "03/01/2000", cargo3));
+			pessoas.add(Pessoa.newInstance("Pessoa4", "Sobrenome4", "p4@p4.com", "12345.6789", "04/01/2000", cargo1));
+			pessoas.add(Pessoa.newInstance("Pessoa5", "Sobrenome5", "p5@p5.com", null, "05/01/2000", cargo2));
+			pessoas.add(Pessoa.newInstance("Pessoa6", "Sobrenome6", "p6@p6.com", "10.00", "06/01/2000", cargo2));
 			
 			cargoRepository.save(cargo1);
 			cargoRepository.save(cargo2);

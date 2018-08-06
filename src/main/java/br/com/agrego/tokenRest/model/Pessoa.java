@@ -15,6 +15,11 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.DecimalMin;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.data.annotation.Transient;
 
 @Entity
 public class Pessoa implements Serializable {
@@ -22,9 +27,24 @@ public class Pessoa implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	
-	public static Pessoa newInstance(String nome, String dtNascimento, Cargo cargo) throws ParseException{
+//	public static Pessoa newInstance(String nome, String dtNascimento, Cargo cargo) throws ParseException{
+//		Pessoa pessoa = new Pessoa();
+//		pessoa.setNome(nome);
+//		pessoa.setCargo(cargo);
+//		pessoa.setDtNascimento(sdf.parse(dtNascimento));
+//		
+//		return pessoa;
+//	}
+	
+	public static Pessoa newInstance(
+			String nome, String sobrenome, 
+			String email, String salario, 
+			String dtNascimento, Cargo cargo) throws ParseException{
 		Pessoa pessoa = new Pessoa();
 		pessoa.setNome(nome);
+		pessoa.setSobreNome(sobrenome);
+		pessoa.setEmail(email);
+		if (salario!=null) pessoa.setSalario(new BigDecimal(salario));
 		pessoa.setCargo(cargo);
 		pessoa.setDtNascimento(sdf.parse(dtNascimento));
 		
@@ -35,12 +55,24 @@ public class Pessoa implements Serializable {
 	@GeneratedValue
 	private Long id;
 
+	@NotBlank(message="Nome do cargo é obrigatório")
 	private String nome;
+
 	private String sobreNome;
+	
 	@Temporal(TemporalType.DATE)
 	private Date dtNascimento;
+	
 	@Column(precision = 20, scale = 4)
+	@DecimalMin(value="0.0000",message="Salário deve ser um valor positivo.")
 	private BigDecimal salario;
+	
+	@Column(name="EMAIL")
+	@Email(message="Não é um email válido")
+	private String email;
+	
+	@Transient
+	private Integer idade;
 
 	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.MERGE)
 	private Cargo cargo;
@@ -102,6 +134,24 @@ public class Pessoa implements Serializable {
 	public String toString() {
 		return String.format("Pessoa [id=%s, nome=%s, sobreNome=%s, nascimento=%s, cargo=%s]", id, nome, sobreNome,
 				dtNascimento, cargo);
+	}
+	public BigDecimal getSalario() {
+		return salario;
+	}
+	public void setSalario(BigDecimal salario) {
+		this.salario = salario;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public Integer getIdade() {
+		return idade;
+	}
+	public void setIdade(Integer idade) {
+		this.idade = idade;
 	}
 	
 	

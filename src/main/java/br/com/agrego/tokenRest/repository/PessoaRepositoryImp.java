@@ -1,5 +1,7 @@
 package br.com.agrego.tokenRest.repository;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -15,5 +17,7 @@ public class PessoaRepositoryImp extends AbstractJpaDAO<Pessoa>  {
 		return repo;
 	}
 
-	
+	public List<Pessoa> pesquisarPorNome(String nome){
+		return repo.findByNomeContainingIgnoreCase(nome);
+	}
 }

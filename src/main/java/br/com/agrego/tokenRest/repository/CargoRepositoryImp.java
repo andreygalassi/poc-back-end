@@ -16,6 +16,10 @@ public class CargoRepositoryImp extends AbstractJpaDAO<Cargo>  {
 
 	@Autowired
 	private CargoRepository repo;
+
+	public CargoRepository getRepo() {
+		return repo;
+	}
 	
 	@Transactional
 	public Cargo testeTransaction(Long id, String descricao){
@@ -58,12 +62,4 @@ public class CargoRepositoryImp extends AbstractJpaDAO<Cargo>  {
 		return query.getResultList();
 	}
 
-	public CargoRepository getRepo() {
-		return repo;
-	}
-
-	
-	
-
-	
 }

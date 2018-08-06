@@ -9,9 +9,7 @@ import javax.validation.Valid;
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -79,14 +77,14 @@ public class CargoEndpoint {
 	@PreAuthorize("hasAuthority('"+Permissoes.CARGO_UPDATE+"')")
 	public Cargo updateParamGeneric(@PathVariable("id") Long id, @RequestBody Map<String, Object> parametros) throws IllegalAccessException, InvocationTargetException {
 
-		Cargo cargoAtual=null;
-		if (id!=null) cargoAtual = cargoRepository.findOne(id);
-		if (cargoAtual == null) throw new ResourceNotFoundException(id);
+		Cargo beanAtual=null;
+		if (id!=null) beanAtual = cargoRepository.findOne(id);
+		if (beanAtual == null) throw new ResourceNotFoundException(id);
 		if (parametros.containsKey("id")) throw new IllegalArgumentException("Não é possível atualizar o campo ID do item");
 		
-		BeanUtils.populate(cargoAtual,parametros);
+		BeanUtils.populate(beanAtual,parametros);
 
-		Cargo bean = cargoRepository.save(cargoAtual);
+		Cargo bean = cargoRepository.save(beanAtual);
 		
 		return bean;
 //	    return ResponseEntity.ok(bean);
@@ -103,15 +101,14 @@ public class CargoEndpoint {
 	@ResponseStatus(HttpStatus.OK)
 	@PreAuthorize("hasAuthority('"+Permissoes.CARGO_DELETE+"')")
 	public Cargo delete(@PathVariable("id") Long id) {
-		Cargo cargo = cargoRepository.findOne(id);
+		Cargo bean = cargoRepository.findOne(id);
 
-		if (cargo == null) throw new ResourceNotFoundException(id);
+		if (bean == null) throw new ResourceNotFoundException(id);
 //			return ResponseEntity.notFound().build();
 		
-		cargoRepository.delete(cargo);
+		cargoRepository.delete(bean);
 
-		return cargo;
-//		return ResponseEntity.ok().build();
+		return bean;
 	}
 	
 	/**
@@ -123,8 +120,8 @@ public class CargoEndpoint {
 	@ResponseStatus(HttpStatus.OK)
 	@PreAuthorize("hasAuthority('"+Permissoes.CARGO_READ+"')")
 	public List<Cargo> findAll() {
-		List<Cargo> findAll = cargoRepository.findAll();
-		return findAll;
+		List<Cargo> lista = cargoRepository.findAll();
+		return lista;
 	}
 
 	/**
@@ -136,16 +133,16 @@ public class CargoEndpoint {
 	 * @status notFound(404) caso não existe um objeto com o id passado
 	 */
 	@GetMapping("/{id}")
+	@ResponseStatus(HttpStatus.OK)
 	@PreAuthorize("hasAuthority('"+Permissoes.CARGO_READ+"')")
-//	@ExceptionHandler(ResourceNotFoundException.class)
 	public Cargo findById(@PathVariable("id") Long id) {
-		Cargo cargo = cargoRepository.findOne(id);
+		Cargo bean = cargoRepository.findOne(id);
 		
 		//tratamento capturado pelo RestExceptionHandler
-		if (cargo == null) throw new ResourceNotFoundException(id);
+		if (bean == null) throw new ResourceNotFoundException(id);
 //			return ResponseEntity.notFound().build();
 		
-		return cargo;
+		return bean;
 //		return ResponseEntity.ok(cargo);
 //		ResponseEntity<Cargo> responseEntity = new ResponseEntity<>(cargo,HttpStatus.OK);
 //		return responseEntity;
@@ -168,12 +165,12 @@ public class CargoEndpoint {
 
 	
 	
-	@GetMapping("/teste/{id}")
-	@Transactional
-	public Cargo testeTransaction(@PathVariable("id") Long id, @RequestParam("descricao") String descricao) {
-		Cargo cargo = cargoRepository.testeTransaction(id, descricao);
-		cargo.setDescricao(descricao + "ddbc");
-		cargoRepository.update(cargo);
-		return cargo;
-	}
+//	@GetMapping("/teste/{id}")
+//	@Transactional
+//	public Cargo testeTransaction(@PathVariable("id") Long id, @RequestParam("descricao") String descricao) {
+//		Cargo cargo = cargoRepository.testeTransaction(id, descricao);
+//		cargo.setDescricao(descricao + "ddbc");
+//		cargoRepository.update(cargo);
+//		return cargo;
+//	}
 }
