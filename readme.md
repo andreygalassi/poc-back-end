@@ -17,3 +17,7 @@ ITENS PARA IMPLEMENTAR
 - Testar template usando angular.js
 - Testar template usando vue.js
 - Testar template usando angular
+
+
+OBS:
+URL Swagger: http://localhost:8080/swagger-ui.html/
