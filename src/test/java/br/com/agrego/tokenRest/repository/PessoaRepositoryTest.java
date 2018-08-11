@@ -47,6 +47,7 @@ public class PessoaRepositoryTest {
 	}
 	
 	@Test
+	@Transactional
 	public void devePersistirUmaNovaPessoa() throws ParseException{
 		String nome = "Nome1";
 		Cargo cargo = cargoRepository.findOne(1l);
