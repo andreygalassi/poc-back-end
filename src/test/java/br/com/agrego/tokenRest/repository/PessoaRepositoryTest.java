@@ -21,7 +21,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import br.com.agrego.tokenRest.model.Cargo;
-import br.com.agrego.tokenRest.model.Pessoa;
+import br.com.agrego.tokenRest.model.Colaborador;
 
 @RunWith(SpringRunner.class)
 //@DataJpaTest
@@ -30,7 +30,7 @@ import br.com.agrego.tokenRest.model.Pessoa;
 public class PessoaRepositoryTest {
 
 	@Autowired
-	private PessoaRepositoryImp pessoaRepository;
+	private ColaboradorRepositoryImp pessoaRepository;
 	@Autowired
 	private CargoRepositoryImp cargoRepository;
 
@@ -51,7 +51,7 @@ public class PessoaRepositoryTest {
 	public void devePersistirUmaNovaPessoa() throws ParseException{
 		String nome = "Nome1";
 		Cargo cargo = cargoRepository.findOne(1l);
-		Pessoa bean = Pessoa.newInstance(nome, "SobreNome1","p1@p1.com","100.00","01/01/2001", cargo);
+		Colaborador bean = Colaborador.newInstance(nome, "SobreNome1","p1@p1.com","100.00","01/01/2001", cargo);
 		pessoaRepository.save(bean);
 		assertThat(bean.getId()).isNotNull();
 		assertThat(bean.getNome()).isEqualTo(nome);
@@ -61,10 +61,10 @@ public class PessoaRepositoryTest {
 		assertThat(bean.getDtNascimento()).isEqualToIgnoringHours("2001-01-01");
 		assertThat(bean.getCargo().getId()).isEqualTo(1l);
 
-		List<Pessoa> findAll = pessoaRepository.findAll();
+		List<Colaborador> findAll = pessoaRepository.findAll();
 		assertThat(findAll.stream().filter(c -> c.getNome().equals(nome)).count()).isNotEqualTo(0l);
 
-		Pessoa one = pessoaRepository.findOne(bean.getId());
+		Colaborador one = pessoaRepository.findOne(bean.getId());
 		assertThat(one.getId()).isNotNull();
 		assertThat(one.getNome()).isEqualTo(nome);
 		assertThat(one.getSobreNome()).isEqualTo("SobreNome1");

@@ -1,4 +1,4 @@
-package br.com.agrego.tokenRest.endpoint.acesso;
+package br.com.agrego.tokenRest.endpoint.v1.acesso;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;

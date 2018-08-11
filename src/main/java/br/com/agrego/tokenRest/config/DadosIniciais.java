@@ -13,13 +13,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.agrego.tokenRest.model.Cargo;
-import br.com.agrego.tokenRest.model.Pessoa;
+import br.com.agrego.tokenRest.model.Colaborador;
 import br.com.agrego.tokenRest.model.acesso.Perfil;
 import br.com.agrego.tokenRest.model.acesso.Permissao;
 import br.com.agrego.tokenRest.model.acesso.Permissoes;
 import br.com.agrego.tokenRest.model.acesso.Usuario;
 import br.com.agrego.tokenRest.repository.CargoRepository;
-import br.com.agrego.tokenRest.repository.PessoaRepository;
+import br.com.agrego.tokenRest.repository.ColaboradorRepository;
 import br.com.agrego.tokenRest.repository.acesso.UsuarioRepository;
 
 @Component
@@ -31,7 +31,7 @@ public class DadosIniciais implements InitializingBean {
 	private UsuarioRepository usuarioRepository;
 	
 	@Autowired
-	private PessoaRepository pessoaRepository;
+	private ColaboradorRepository pessoaRepository;
 	@Autowired
 	private CargoRepository cargoRepository;
 	
@@ -58,13 +58,13 @@ public class DadosIniciais implements InitializingBean {
 		Cargo cargo3 = Cargo.newInstance("Cargo3");
 		
 		try {
-			List<Pessoa> pessoas = new ArrayList<>();
-			pessoas.add(Pessoa.newInstance("Pessoa1", "Sobrenome1", "p1@p1.com", "10.00", "01/01/2000", cargo1));
-			pessoas.add(Pessoa.newInstance("Pessoa2", null, null, "150.20", "02/01/2000", cargo2));
-			pessoas.add(Pessoa.newInstance("Pessoa3", null, "p3@p3.com", "2500.00", "03/01/2000", cargo3));
-			pessoas.add(Pessoa.newInstance("Pessoa4", "Sobrenome4", "p4@p4.com", "12345.6789", "04/01/2000", cargo1));
-			pessoas.add(Pessoa.newInstance("Pessoa5", "Sobrenome5", "p5@p5.com", null, "05/01/2000", cargo2));
-			pessoas.add(Pessoa.newInstance("Pessoa6", "Sobrenome6", "p6@p6.com", "10.00", "06/01/2000", cargo2));
+			List<Colaborador> pessoas = new ArrayList<>();
+			pessoas.add(Colaborador.newInstance("Pessoa1", "Sobrenome1", "p1@p1.com", "10.00", "01/01/2000", cargo1));
+			pessoas.add(Colaborador.newInstance("Pessoa2", null, null, "150.20", "02/01/2000", cargo2));
+			pessoas.add(Colaborador.newInstance("Pessoa3", null, "p3@p3.com", "2500.00", "03/01/2000", cargo3));
+			pessoas.add(Colaborador.newInstance("Pessoa4", "Sobrenome4", "p4@p4.com", "12345.6789", "04/01/2000", cargo1));
+			pessoas.add(Colaborador.newInstance("Pessoa5", "Sobrenome5", "p5@p5.com", null, "05/01/2000", cargo2));
+			pessoas.add(Colaborador.newInstance("Pessoa6", "Sobrenome6", "p6@p6.com", "10.00", "06/01/2000", cargo2));
 			
 			cargoRepository.save(cargo1);
 			cargoRepository.save(cargo2);
@@ -109,10 +109,10 @@ public class DadosIniciais implements InitializingBean {
 		Permissao updateCargo = Permissao.newInstance(Permissoes.CARGO_UPDATE);
 		Permissao deleteCargo = Permissao.newInstance(Permissoes.CARGO_DELETE);
 
-		Permissao createPessoa = Permissao.newInstance(Permissoes.PESSOA_CREATE);
-		Permissao readPessoa   = Permissao.newInstance(Permissoes.PESSOA_READ);
-		Permissao updatePessoa = Permissao.newInstance(Permissoes.PESSOA_UPDATE);
-		Permissao deletePessoa = Permissao.newInstance(Permissoes.PESSOA_DELETE);
+		Permissao createPessoa = Permissao.newInstance(Permissoes.COLABORADOR_CREATE);
+		Permissao readPessoa   = Permissao.newInstance(Permissoes.COLABORADOR_READ);
+		Permissao updatePessoa = Permissao.newInstance(Permissoes.COLABORADOR_UPDATE);
+		Permissao deletePessoa = Permissao.newInstance(Permissoes.COLABORADOR_DELETE);
 		
 		pAdmin.getPermissoes().add(createCargo);
 		pAdmin.getPermissoes().add(readCargo);

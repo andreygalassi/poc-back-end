@@ -1,10 +1,18 @@
 package br.com.agrego.tokenRest.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.springframework.data.annotation.Version;
 
 @MappedSuperclass
 public abstract class AbstractEntity implements Serializable{
@@ -14,6 +22,34 @@ public abstract class AbstractEntity implements Serializable{
 	@Id
 	@GeneratedValue
 	private Long id;
+	
+	@Column(nullable = false,  columnDefinition = "bit default 1")
+	private Boolean ativo=true;
+	
+	@Version
+	@Column
+	private Long versao;
+	
+	@Column(nullable=false,updatable=false)
+	@Temporal(value = TemporalType.TIMESTAMP)
+	private Date dtCriacao;
+	
+//	@Column(columnDefinition="TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
+	@Column(updatable=false)
+	@Temporal(value = TemporalType.TIMESTAMP)
+	private Date dtEdicao;
+	
+	@PrePersist 
+    protected void onCreate() {
+		dtCriacao = new Date();
+		dtEdicao = dtCriacao;
+    }
+	
+	@PreUpdate
+    protected void onUpdate() {
+		dtEdicao = new Date();
+    }
+	
 
 	public Long getId() {
 		return id;
@@ -46,5 +82,35 @@ public abstract class AbstractEntity implements Serializable{
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+
+	public Boolean getAtivo() {
+		return ativo;
+	}
+
+
+	public void setAtivo(Boolean ativo) {
+		this.ativo = ativo;
+	}
+
+
+	public Date getDtEdicao() {
+		return dtEdicao;
+	}
+
+
+	public void setDtEdicao(Date dtEdicao) {
+		this.dtEdicao = dtEdicao;
+	}
+
+
+	public Long getVersao() {
+		return versao;
+	}
+
+
+	public Date getDtCriacao() {
+		return dtCriacao;
 	}
 }

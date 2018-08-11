@@ -1,4 +1,4 @@
-package br.com.agrego.tokenRest.endpoint;
+package br.com.agrego.tokenRest.endpoint.v1;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
@@ -24,76 +24,76 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.agrego.tokenRest.error.ResourceNotFoundException;
 import br.com.agrego.tokenRest.model.Cargo;
-import br.com.agrego.tokenRest.model.Pessoa;
+import br.com.agrego.tokenRest.model.Colaborador;
 import br.com.agrego.tokenRest.model.acesso.Permissoes;
-import br.com.agrego.tokenRest.repository.PessoaRepositoryImp;
+import br.com.agrego.tokenRest.repository.ColaboradorRepositoryImp;
 
 @RestController
 @RequestMapping("/v1/pessoas")
-public class PessoaEndpoint {
+public class ColaboradorEndpoint {
 
 	@Autowired
-	private PessoaRepositoryImp pessoaRepository;
+	private ColaboradorRepositoryImp colaboradorRepository;
 
 	@PostMapping()
 	@ResponseStatus(HttpStatus.CREATED)
-	@PreAuthorize("hasAuthority("+Permissoes.PESSOA_CREATE+")")
-	public Pessoa create(@Valid @RequestBody Pessoa pessoa) {
-		Pessoa bean = pessoaRepository.save(pessoa);
+	@PreAuthorize("hasAuthority("+Permissoes.COLABORADOR_CREATE+")")
+	public Colaborador create(@Valid @RequestBody Colaborador pessoa) {
+		Colaborador bean = colaboradorRepository.save(pessoa);
 		return bean;
 	}
 	
 	@PutMapping
 	@ResponseStatus(HttpStatus.OK)
-	@PreAuthorize("hasAuthority("+Permissoes.PESSOA_UPDATE+")")
-	public Pessoa update(@RequestBody Pessoa pessoa) {
-		Pessoa bean = pessoaRepository.update(pessoa);
+	@PreAuthorize("hasAuthority("+Permissoes.COLABORADOR_UPDATE+")")
+	public Colaborador update(@RequestBody Colaborador pessoa) {
+		Colaborador bean = colaboradorRepository.update(pessoa);
 		return bean;
 	}
 	
 	@PatchMapping("/{id}")
 	@ResponseStatus(HttpStatus.OK)
-	@PreAuthorize("hasAuthority('"+Permissoes.PESSOA_UPDATE+"')")
-	public Pessoa updateParamGeneric(@PathVariable("id") Long id, @RequestBody Map<String, Object> parametros) throws IllegalAccessException, InvocationTargetException {
+	@PreAuthorize("hasAuthority('"+Permissoes.COLABORADOR_UPDATE+"')")
+	public Colaborador updateParamGeneric(@PathVariable("id") Long id, @RequestBody Map<String, Object> parametros) throws IllegalAccessException, InvocationTargetException {
 
-		Pessoa beanAtual=null;
-		if (id!=null) beanAtual = pessoaRepository.findOne(id);
+		Colaborador beanAtual=null;
+		if (id!=null) beanAtual = colaboradorRepository.findOne(id);
 		if (beanAtual == null) throw new ResourceNotFoundException(id);
 		if (parametros.containsKey("id")) throw new IllegalArgumentException("Não é possível atualizar o campo ID do item");
 		
 		BeanUtils.populate(beanAtual,parametros);
 
-		Pessoa bean = pessoaRepository.save(beanAtual);
+		Colaborador bean = colaboradorRepository.save(beanAtual);
 		
 		return bean;
 	}
 
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.OK)
-	@PreAuthorize("hasAuthority("+Permissoes.PESSOA_DELETE+")")
-	public Pessoa delete(@PathVariable("id") Long id) {
-		Pessoa bean = pessoaRepository.findOne(id);
+	@PreAuthorize("hasAuthority("+Permissoes.COLABORADOR_DELETE+")")
+	public Colaborador delete(@PathVariable("id") Long id) {
+		Colaborador bean = colaboradorRepository.findOne(id);
 
 		if (bean == null) throw new ResourceNotFoundException(id);
 		
-		pessoaRepository.delete(bean);
+		colaboradorRepository.delete(bean);
 
 		return bean;
 	}
 
 	@GetMapping
 	@ResponseStatus(HttpStatus.OK)
-	@PreAuthorize("hasAuthority("+Permissoes.PESSOA_READ+")")
-	public List<Pessoa> findAll() {
-		List<Pessoa> lista = pessoaRepository.findAll();
+	@PreAuthorize("hasAuthority("+Permissoes.COLABORADOR_READ+")")
+	public List<Colaborador> findAll() {
+		List<Colaborador> lista = colaboradorRepository.findAll();
 		return lista;
 	}
 
 	@GetMapping("/{id}")
 	@ResponseStatus(HttpStatus.OK)
-	@PreAuthorize("hasAuthority("+Permissoes.PESSOA_READ+")")
-	public Pessoa findById(@PathVariable("id") Long id){
-		Pessoa bean = pessoaRepository.findOne(id);
+	@PreAuthorize("hasAuthority("+Permissoes.COLABORADOR_READ+")")
+	public Colaborador findById(@PathVariable("id") Long id){
+		Colaborador bean = colaboradorRepository.findOne(id);
 
 		if (bean == null) throw new ResourceNotFoundException(id);
 		
@@ -103,16 +103,16 @@ public class PessoaEndpoint {
 	@GetMapping("/find")
 	@ResponseStatus(HttpStatus.OK)
 	@PreAuthorize("hasAuthority('"+Permissoes.CARGO_READ+"')")
-	public List<Pessoa> findByNome(@RequestParam("nome") String nome){
-		List<Pessoa> lista = pessoaRepository.pesquisarPorNome(nome);
+	public List<Colaborador> findByNome(@RequestParam("nome") String nome){
+		List<Colaborador> lista = colaboradorRepository.pesquisarPorNome(nome);
 		return lista;
 	}
 
 	@GetMapping("/{id}/cargo")
 	@ResponseStatus(HttpStatus.OK)
-	@PreAuthorize("hasAuthority("+Permissoes.PESSOA_READ+")")
+	@PreAuthorize("hasAuthority("+Permissoes.COLABORADOR_READ+")")
 	public Cargo findCargoByPessoa(@PathVariable("id") Long id){
-		Pessoa bean = pessoaRepository.findOne(id);
+		Colaborador bean = colaboradorRepository.findOne(id);
 		if (bean == null) throw new ResourceNotFoundException(id);
 		return bean.getCargo();
 	}

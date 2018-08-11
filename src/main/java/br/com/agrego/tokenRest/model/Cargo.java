@@ -35,7 +35,7 @@ public class Cargo extends AbstractEntity {
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "cargo", fetch=FetchType.LAZY, cascade=CascadeType.MERGE)
-	private Set<Pessoa> pessoas = new TreeSet<>();
+	private Set<Colaborador> pessoas = new TreeSet<>();
 	  
 	public String getTitulo() {
 		return titulo;
@@ -50,10 +50,10 @@ public class Cargo extends AbstractEntity {
 		this.descricao = descricao;
 	}
 	
-	public Set<Pessoa> getPessoas() {
+	public Set<Colaborador> getPessoas() {
 		return pessoas;
 	}
-	public void setPessoas(Set<Pessoa> pessoas) {
+	public void setPessoas(Set<Colaborador> pessoas) {
 		this.pessoas = pessoas;
 	}
 	@Override

@@ -8,6 +8,8 @@ import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
@@ -19,7 +21,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.annotation.Transient;
 
 @Entity
-public class Pessoa  extends AbstractEntity {
+public class Colaborador  extends AbstractEntity {
 	 
 	private static final long serialVersionUID = 1L;
 	private static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -33,19 +35,19 @@ public class Pessoa  extends AbstractEntity {
 //		return pessoa;
 //	}
 	
-	public static Pessoa newInstance(
+	public static Colaborador newInstance(
 			String nome, String sobrenome, 
 			String email, String salario, 
 			String dtNascimento, Cargo cargo) throws ParseException{
-		Pessoa pessoa = new Pessoa();
-		pessoa.setNome(nome);
-		pessoa.setSobreNome(sobrenome);
-		pessoa.setEmail(email);
-		if (salario!=null) pessoa.setSalario(new BigDecimal(salario));
-		pessoa.setCargo(cargo);
-		pessoa.setDtNascimento(sdf.parse(dtNascimento));
+		Colaborador bean = new Colaborador();
+		bean.setNome(nome);
+		bean.setSobreNome(sobrenome);
+		bean.setEmail(email);
+		if (salario!=null) bean.setSalario(new BigDecimal(salario));
+		bean.setCargo(cargo);
+		bean.setDtNascimento(sdf.parse(dtNascimento));
 		
-		return pessoa;
+		return bean;
 	}
 	
 	@NotBlank(message="Nome do cargo é obrigatório")
@@ -55,6 +57,9 @@ public class Pessoa  extends AbstractEntity {
 	
 	@Temporal(TemporalType.DATE)
 	private Date dtNascimento;
+
+	@Temporal(value = TemporalType.DATE)
+	private Date dtAdmissao;
 	
 	@Column(precision = 20, scale = 4)
 	@DecimalMin(value="0.0000",message="Salário deve ser um valor positivo.")
@@ -69,6 +74,10 @@ public class Pessoa  extends AbstractEntity {
 
 	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.MERGE)
 	private Cargo cargo;
+
+	@Enumerated(EnumType.STRING)
+	@Column(name="ESTADO_CIVIL")
+	private EnumEstadoCivil estadoCivil;
 	
 	public String getNome() {
 		return nome;

@@ -1,6 +1,6 @@
 package br.com.agrego.tokenRest.model.acesso;
 
-import br.com.agrego.tokenRest.model.Pessoa;
+import br.com.agrego.tokenRest.model.Colaborador;
 
 public enum EnumAcao {
 	CREATE, READ, UPDATE, DELETE;
@@ -15,7 +15,7 @@ public enum EnumAcao {
 		return retorno;
 	}
 
-	public static String DELETAR(Class<Pessoa> class1) {
+	public static String DELETAR(Class<Colaborador> class1) {
 		// TODO Auto-generated method stub
 		return null;
 	}

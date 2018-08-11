@@ -1,4 +1,4 @@
-package br.com.agrego.tokenRest.endpoint;
+package br.com.agrego.tokenRest.endpoint.v1;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;

@@ -5,19 +5,19 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import br.com.agrego.tokenRest.model.Pessoa;
+import br.com.agrego.tokenRest.model.Colaborador;
 
 @Repository
-public class PessoaRepositoryImp extends AbstractJpaDAO<Pessoa>  {
+public class ColaboradorRepositoryImp extends AbstractJpaDAO<Colaborador>  {
 
 	@Autowired
-	private PessoaRepository repo;
+	private ColaboradorRepository repo;
 
-	public PessoaRepository getRepo() {
+	public ColaboradorRepository getRepo() {
 		return repo;
 	}
 
-	public List<Pessoa> pesquisarPorNome(String nome){
+	public List<Colaborador> pesquisarPorNome(String nome){
 		return repo.findByNomeContainingIgnoreCase(nome);
 	}
 }
