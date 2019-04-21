@@ -11,12 +11,12 @@ import javax.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public abstract class AbstractJpaDAO2<T extends Serializable, E extends JpaRepository<T, Long>>  {
+public abstract class AbstractJpaDAO2<E extends Serializable, R extends JpaRepository<E, Long>>  {
 	
 	@Autowired
-	private E repo;
+	private R repo;
 	
-	public E getRepo(){
+	public R getRepo(){
 		return repo;
 	}
 	
@@ -24,9 +24,9 @@ public abstract class AbstractJpaDAO2<T extends Serializable, E extends JpaRepos
 	@PersistenceContext
 	EntityManager entityManager;
  
-	private Class<T> beanClass;
+	private Class<E> beanClass;
 
-	protected Class<T> getBeanClass() {
+	protected Class<E> getBeanClass() {
 		
 		if (this.beanClass == null) {
 			
@@ -53,30 +53,30 @@ public abstract class AbstractJpaDAO2<T extends Serializable, E extends JpaRepos
 		this.beanClass = getBeanClass();
 	}
    
-	public T findOne(long id){
+	public E findOne(long id){
 		return entityManager.find(getBeanClass(), id);
 	}
    
 	@SuppressWarnings("unchecked")
-	public List<T> findAll(){
-		List<T> resultList = entityManager.createQuery( "from "+getBeanClass().getSimpleName()).getResultList();
+	public List<E> findAll(){
+		List<E> resultList = entityManager.createQuery( "from "+getBeanClass().getSimpleName()).getResultList();
 		return resultList;
 	}
  
-	public void create(T entity){
+	public void create(E entity){
 	   entityManager.persist(entity);
 	}
  
-	public T update(T entity){
+	public E update(E entity){
 		return entityManager.merge(entity);
 	}
  
-	public void delete(T entity){
+	public void delete(E entity){
 		entityManager.remove(entity);
 	}
 	
 	public void deleteById(long entityId){
-		T entity = findOne(entityId);
+		E entity = findOne(entityId);
 		delete(entity);
 	}
 }

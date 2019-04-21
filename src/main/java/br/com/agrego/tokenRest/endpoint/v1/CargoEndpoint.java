@@ -30,6 +30,7 @@ import javassist.NotFoundException;
 
 @RestController
 @RequestMapping("/v1/cargos")
+//@RequestMapping("${rest.base-path}/v1/cargos")
 public class CargoEndpoint {
 	
 

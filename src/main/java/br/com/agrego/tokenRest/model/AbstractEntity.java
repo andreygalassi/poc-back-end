@@ -11,8 +11,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
-import org.springframework.data.annotation.Version;
+import javax.persistence.Version;
 
 @MappedSuperclass
 public abstract class AbstractEntity implements Serializable{
@@ -35,7 +34,7 @@ public abstract class AbstractEntity implements Serializable{
 	private Date dtCriacao;
 	
 //	@Column(columnDefinition="TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
-	@Column(updatable=false)
+	@Column(nullable=false,updatable=false)
 	@Temporal(value = TemporalType.TIMESTAMP)
 	private Date dtEdicao;
 	

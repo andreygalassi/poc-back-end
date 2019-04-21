@@ -54,9 +54,9 @@ public class CargoEndpointMockMvcTest {
 	}
 	
 	@Test
-	public void deveRetornarStatusCode401QuandoListarCargoUsandoUsuarioNaoLogado() throws Exception{
+	public void deveRetornarStatusCode403QuandoListarCargoUsandoUsuarioNaoLogado() throws Exception{
 		mockMvc.perform(MockMvcRequestBuilders.get("/v1/cargos"))
-			.andExpect(MockMvcResultMatchers.status().isUnauthorized())
+			.andExpect(MockMvcResultMatchers.status().isForbidden())
 			;
 	}
 	@Test
@@ -65,7 +65,7 @@ public class CargoEndpointMockMvcTest {
 		mockMvc.perform(MockMvcRequestBuilders.get("/v1/cargos")).andDo(MockMvcResultHandlers.print())
 			.andExpect(MockMvcResultMatchers.status().isForbidden())
 			.andExpect(MockMvcResultMatchers.content().contentType("application/json;charset=UTF-8"))
-			.andExpect(MockMvcResultMatchers.jsonPath("$.path", Matchers.is("/v1/cargos")))
+			.andExpect(MockMvcResultMatchers.jsonPath("$.path", Matchers.is("/api/v1/cargos")))
 			;
 	}
 	

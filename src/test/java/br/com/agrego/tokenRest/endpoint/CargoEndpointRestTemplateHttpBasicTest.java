@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
@@ -40,7 +41,8 @@ import br.com.agrego.tokenRest.repository.CargoRepositoryImp;
 @RunWith(SpringRunner.class)
 //Inicia o endpoint com uma porta aleatória, evita problemas quando o ambiente já está em pé
 @SpringBootTest(webEnvironment=WebEnvironment.RANDOM_PORT)
-public class CargoEndpointRestTemplateTest {
+@Ignore
+public class CargoEndpointRestTemplateHttpBasicTest {
 
 	//2 ferramentas para testar endpoint (resttemplate e mockmvc) exemplos com as 2
 	@Autowired

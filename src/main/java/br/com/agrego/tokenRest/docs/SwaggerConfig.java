@@ -27,7 +27,7 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                     .apis(RequestHandlerSelectors.basePackage("br.com.agrego.tokenRest.endpoint"))
-                    .paths(regex("/v1.*"))
+                    .paths(regex("/api/.*"))
                     .build()
                 .globalOperationParameters(Collections.singletonList(new ParameterBuilder()
                     .name("Authorization")
